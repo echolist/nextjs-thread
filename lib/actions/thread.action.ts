@@ -7,6 +7,7 @@ import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import { error } from "console";
 import mongoose from "mongoose";
+import Community from "../models/community.model";
 
 interface Params {
     text: string,
@@ -19,10 +20,15 @@ export async function createThread({
 } : Params) {
     try{
         connectToDb();
+        //get _id by id from the communityId, the Id was coming from clerk, but we need to add ObjId from the mongodb
+        const communityIdObject = await Community.findOne(
+            { id: communityId },
+            { _id: 1 }
+          );
         const createdThread = await Thread.create({
             text : text,
             author : author,
-            community: communityId ? (new mongoose.Types.ObjectId(communityId)) : null,
+            community: communityIdObject,
         });
     
         await User.findByIdAndUpdate(author,{
