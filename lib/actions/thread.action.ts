@@ -60,6 +60,7 @@ export async function fetchPosts(pageNumber = 1, pageSize = 20)
         .skip(skip)
         .limit(pageSize)
         .populate({path:"author", model:User})
+        .populate({path:"community", model:Community})
         .populate({
             path:"children", 
             populate: {

@@ -61,7 +61,7 @@ const Page = async ({params} : {params: { id: string}}) => {
                             <ThreadsTab 
                              accountId = {userInfo.id}
                              currentUserId = {user.id}
-                             accountType="user"
+                             accountType="User"
                             />   
                         </TabsContent>    
                     ))}
