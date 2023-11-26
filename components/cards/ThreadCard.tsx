@@ -1,3 +1,4 @@
+import { formatDateString } from "@/lib/utils"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -47,7 +48,7 @@ const ThreadCard = ({
                         <div className="thread-card_bar" />
                     </div>
                     <div className="flex w-full flex-col">
-                        <Link href={`/profile/${author.id}`} className="w-fit">
+                        <Link href={`/profile/${JSON.stringify(author.id)}`} className="w-fit">
                             <h4 className="cursor-pointer text-base-semibold text-light-1">
                                 {author.name}
                             </h4>
@@ -91,6 +92,22 @@ const ThreadCard = ({
                         </div>
                     </div>
                 </div>
+                {!isComment && community && (
+                    <Link href={`/communities/${community.id}`} className="mt-5 flex items-center">
+                        <p className="text-subtle-medium text-gray-1">
+                            {formatDateString(createdAt)}
+                            - {community.name} Community
+                            <Image
+                                alt={community.name}
+                                src={community.image}
+                                height={14}
+                                width={14}
+                                className="ml-1 rounded-full object-cover"
+                             />
+                        </p>
+                    </Link>
+                )}
+                
             </div>
         </article>
     )

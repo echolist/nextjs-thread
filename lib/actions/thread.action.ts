@@ -6,6 +6,7 @@ import { connectToDb } from "../mongoose";
 import User from "../models/user.model";
 import { revalidatePath } from "next/cache";
 import { error } from "console";
+import mongoose from "mongoose";
 
 interface Params {
     text: string,
@@ -18,11 +19,10 @@ export async function createThread({
 } : Params) {
     try{
         connectToDb();
-
         const createdThread = await Thread.create({
             text : text,
             author : author,
-            community:communityId,
+            community: communityId ? (new mongoose.Types.ObjectId(communityId)) : null,
         });
     
         await User.findByIdAndUpdate(author,{
